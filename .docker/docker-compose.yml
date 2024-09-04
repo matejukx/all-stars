@@ -1,0 +1,34 @@
+services:
+  postgres.db:
+    image: postgres:14
+    environment:
+      POSTGRES_PASSWORD: pickford123
+    ports:
+      - "5432:5432"
+    volumes:
+      - db_data:/var/lib/postgresql/data
+
+  all.stars.api:
+    container_name: all.stars.api
+    image: all.stars.api:latest
+    ports:
+      - 5000:5000
+    build:
+      context: ../src
+      dockerfile: Dockerfile
+    environment:
+      - PostgresDatabaseOptions__ConnectionString=Host=postgres.db;Port=5432;Username=postgres;Password=pickford123;Database=postgres
+    networks:
+      - all-stars-network
+    depends_on:
+      - postgres.db
+    deploy:
+      resources:
+        limits:
+          cpus: '0.5' 
+
+volumes:
+  db_data:
+
+networks:
+  all-stars-network:

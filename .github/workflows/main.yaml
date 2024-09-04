@@ -1,0 +1,38 @@
+name: CI
+on: push
+jobs:
+  backend-build:
+    runs-on: ubuntu-latest
+    steps:
+    - uses: actions/checkout@v2
+    - name: restore project
+      working-directory: .
+      run: dotnet restore
+    - name: dotnet build
+      working-directory: .
+      run: dotnet build  -c Release --no-restore
+    - name: Run API unit tests
+      working-directory: ./test/AllStars.API.Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: Run Application unit tests
+      working-directory: ./test/AllStars.Application.Test
+      run: dotnet test --no-restore --verbosity normal
+    - name: publish for integration tests
+      working-directory: .
+      run: dotnet publish --runtime linux-x64 -p:PublishDir=obj/docker/publish/net8.0/linux-x64
+    - name: Run integration tests
+      working-directory: .docker
+      run: docker compose 
+        -f docker-compose.common.yml 
+        -f docker-compose.integration.test.yml 
+        up 
+        --remove-orphans 
+        --build
+        --abort-on-container-exit
+    - name: Integration tests down
+      working-directory: .docker
+      run: docker compose 
+        -f docker-compose.common.yml 
+        -f docker-compose.integration.test.yml 
+        down
+        --volumes

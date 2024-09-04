@@ -1,0 +1,14 @@
+services:
+  all-stars.api.test:
+    container_name: all-stars.api.test
+    image: all-stars.api.test:latest
+    build:
+      context: ../test/AllStars.Integration.Test
+      dockerfile: Dockerfile.test
+    networks:
+      - all-stars-network
+    depends_on:
+      - postgres-db
+
+networks:
+  all-stars-network:

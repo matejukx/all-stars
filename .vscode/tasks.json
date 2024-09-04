@@ -1,0 +1,63 @@
+{
+  "version": "2.0.0",
+  "tasks": [
+    {
+      "label": "restore",
+      "command": "dotnet",
+      "args": [
+        "restore"
+      ]
+    },
+    {
+      "label": "up",
+      "command": "docker-compose.exe",
+      "args": [
+        "-f",
+        ".docker/docker-compose.yml",
+        "up",
+        "--remove-orphans",
+        "--build",
+        "-d"
+      ]
+    },
+    {
+      "label": "unit test - API",
+      "command": "dotnet",
+      "args": [
+        "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/test/AllStars.API.test"
+      }
+    },
+    {
+      "label": "unit test - Application",
+      "command": "dotnet",
+      "args": [
+        "test"
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/test/AllStars.Application.test"
+      }
+    },
+    {
+      "label": "unit test - all",
+      "dependsOn": [
+        "unit test - API",
+        "unit test - Application"
+      ]
+    },
+    {
+      "label": "integration test",
+      "command": "docker-compose.exe",
+      "args": [
+        "-f",
+        ".docker/docker-compose.integration.test.yml",
+        "up",
+        "--remove-orphans",
+        "--build",
+        "--abort-on-container-exit"
+      ]
+    }
+  ]
+}
