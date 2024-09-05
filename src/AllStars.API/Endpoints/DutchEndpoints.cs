@@ -2,22 +2,32 @@
 using AllStars.Domain.Dutch.Interfaces;
 using AllStars.Domain.Dutch.Models.Commands;
 using AutoMapper;
+using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
+using System.ComponentModel.DataAnnotations;
 
 namespace AllStars.API.Endpoints;
 
 public static class DutchEndpoints
 {
     public static async Task<IResult> PutScore(
-        [AsParameters] PutScoreRequest query,
+        PutScoreRequest request,
         [FromServices] IDutchService dutchService,
         [FromServices] ILoggerFactory loggerFactory,
+        [FromServices] IValidator<PutScoreRequest> validator,
         CancellationToken token)
     {
         var logger = loggerFactory.CreateLogger("UserEndpoints");
         try
         {
-            var result = await dutchService.UpdateOne(query.GameId, query.NickName, query.Points, token);
+            var validationResult = validator.Validate(request);
+            if (!validationResult.IsValid)
+            {
+                return Results.BadRequest(validationResult.Errors);
+            }
+
+            var result = await dutchService.UpdateOne(request.GameId, request.NickName, request.Points, token);
 
             if (result is false)
             {
@@ -38,11 +48,18 @@ public static class DutchEndpoints
         [FromServices] IMapper mapper,
         [FromServices] IDutchService dutchService,
         [FromServices] ILoggerFactory loggerFactory,
+        [FromServices] IValidator<CreateDutchGameRequest> validator,
         CancellationToken token)
     {
         var logger = loggerFactory.CreateLogger("UserEndpoints");
         try
         {
+            var validationResult = validator.Validate(request);
+            if (!validationResult.IsValid)
+            {
+                return Results.BadRequest(validationResult.Errors);
+            }
+
             var command = mapper.Map<CreateDutchGameCommand>(request);
             await dutchService.CreateMany(command, token);
             return Results.Ok();

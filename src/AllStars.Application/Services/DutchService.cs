@@ -1,4 +1,5 @@
-﻿using AllStars.Domain.Dutch.Interfaces;
+﻿using AllStars.Application.Helpers;
+using AllStars.Domain.Dutch.Interfaces;
 using AllStars.Domain.Dutch.Models;
 using AllStars.Domain.Dutch.Models.Commands;
 using AllStars.Domain.User.Models;
@@ -25,11 +26,6 @@ public class DutchService(IDutchRepository dutchRepository, IUserRepository user
 
     public async Task<bool> UpdateOne(Guid gameId, string nickName, int points, CancellationToken token)
     {
-        if (points < 0 || points > 1000)
-        {
-            return false;
-        }
-
         var score = await _dutchRepository.GetOneScore(gameId, nickName, token);
         if (score is null)
         {
@@ -75,15 +71,15 @@ public class DutchService(IDutchRepository dutchRepository, IUserRepository user
         await _dutchRepository.CreateMany(game, scores, token);
     }
 
-    private async Task<AllStarUser> GetUser(string nickName, CancellationToken token)
-    {
-        var user = await _userRepository.GetOneAsync(nickName, token);
-        if (user is null)
-        {
-            throw new ApplicationException($"User with name: {nickName} not found. Cannot add Dutch Game.");
-        }
+    //private async Task<AllStarUser> GetUser(string nickName, CancellationToken token)
+    //{
+    //    var user = await _userRepository.GetOneAsync(nickName, token);
+    //    if (user is null)
+    //    {
+    //        throw new ApplicationException($"User with name: {nickName} not found. Cannot add Dutch Game.");
+    //    }
 
-        return user;
-    }
+    //    return user;
+    //}
     
 }

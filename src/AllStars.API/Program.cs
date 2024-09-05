@@ -8,6 +8,9 @@ using AutoMapper;
 using AllStars.API.Profiles;
 using AllStars.Infrastructure;
 using Microsoft.EntityFrameworkCore;
+using AllStars.API.DTO.Dutch;
+using FluentValidation;
+using AllStars.API.Validators;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -24,6 +27,10 @@ Log.Logger = new LoggerConfiguration()
 builder.Host.UseSerilog();
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog();
+
+builder.Services
+    .AddTransient<IValidator<CreateDutchGameRequest>, CreateDutchGameRequestValidator>()
+    .AddTransient<IValidator<PutScoreRequest>, PutScoreRequestValidator>();
 
 builder.Services
     .AddScoped<IDutchService, DutchService>();
@@ -43,7 +50,6 @@ var mapperConfig = new MapperConfiguration(config =>
     config.AddProfile(new CreateDutchGameCommandProfile());
     config.AddProfile(new DutchScoreResponseProfile());
 });
-
 builder.Services.
     AddSingleton(mapperConfig.CreateMapper());
 
@@ -62,17 +68,15 @@ app.MapGet("/dutch/all", DutchEndpoints.GetAll);
 app.MapGet("/dutch", DutchEndpoints.GetUserScores);
 app.MapPost("/dutch", DutchEndpoints.PostGame);
 app.MapPut("/dutch", DutchEndpoints.PutScore);
-app.MapPut("/dev/users", DutchEndpoints.AddUser);
+
+if (app.Environment.IsDevelopment())
+{
+    app.MapPut("/dev/users", DutchEndpoints.AddUser);
+}
 
 app.Run();
 
 //builder.Services
 //    .Configure<MongoRepositoryOptions>(configuration.GetSection(nameof(MongoRepositoryOptions)))
 //    .Configure<StationCacheOptions>(configuration.GetSection(nameof(StationCacheOptions)));
-
-
-// builder.Services
-//     .AddTransient<IValidator<StationSearchQuery>, StationsSearchQueryValidator>();
-
-
 
