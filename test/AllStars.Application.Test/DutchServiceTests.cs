@@ -21,6 +21,7 @@ public class DutchServiceTests
     {
         _dutchRepositoryMock = new Mock<IDutchRepository>();
         _userRepositoryMock = new Mock<IUserRepository>();
+        _logRepositoryMock = new Mock<ILogRepository>();
         _dutchService = new DutchService(_dutchRepositoryMock.Object, _userRepositoryMock.Object, _logRepositoryMock.Object);
     }
 
