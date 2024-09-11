@@ -1,7 +1,9 @@
 # all-stars
 
 1. dodaj minimum testow aby dalo sie to na pipeline wrzucic xD
-2. Fix pipeline
+    - end to end happy path or integration tests
+    
+2. Make pipeline work
 3. dodaj logi o strukturze:
     1. dataDodania
     2. kto dodał
@@ -9,7 +11,12 @@
     4. wynik
     5. osoba
 
-4. Add authentication somehow
+4 - to co w zeszycie
+5. authentication
+6 deploy
+7. frontend
+
+
 
 2. sprawdz dockerowa wersję czy działa
 
