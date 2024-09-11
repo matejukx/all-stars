@@ -11,6 +11,7 @@ using Microsoft.EntityFrameworkCore;
 using AllStars.API.DTO.Dutch;
 using FluentValidation;
 using AllStars.API.Validators;
+using AllStars.Domain.Logs.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -37,7 +38,8 @@ builder.Services
 
 builder.Services
     .AddScoped<IDutchRepository, DutchRepository>()
-    .AddScoped<IUserRepository, UserRepository>();
+    .AddScoped<IUserRepository, UserRepository>()
+    .AddScoped<ILogRepository, LogRepository>();
 
 builder.Services.AddDbContext<AppDbContext>(
     options =>

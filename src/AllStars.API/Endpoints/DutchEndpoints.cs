@@ -4,8 +4,6 @@ using AllStars.Domain.Dutch.Models.Commands;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
-using static Microsoft.EntityFrameworkCore.DbLoggerCategory;
-using System.ComponentModel.DataAnnotations;
 
 namespace AllStars.API.Endpoints;
 
@@ -28,7 +26,6 @@ public static class DutchEndpoints
             }
 
             var result = await dutchService.UpdateOne(request.GameId, request.NickName, request.Points, token);
-
             if (result is false)
             {
                 return Results.NotFound("Something went wrong when updating DutchScore.");

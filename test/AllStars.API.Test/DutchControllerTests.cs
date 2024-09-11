@@ -3,8 +3,6 @@
 // TODO: Add DutchControllerTests
 public class DutchControllerTests
 {
-    private readonly CancellationToken _token = new CancellationToken();
-
     public DutchControllerTests()
     {
         

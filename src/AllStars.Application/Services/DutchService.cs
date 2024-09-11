@@ -1,13 +1,15 @@
 ﻿using AllStars.Domain.Dutch.Interfaces;
 using AllStars.Domain.Dutch.Models;
 using AllStars.Domain.Dutch.Models.Commands;
+using AllStars.Domain.Logs.Interfaces;
 
 namespace AllStars.Application.Services;
 
-public class DutchService(IDutchRepository dutchRepository, IUserRepository userRepository) : IDutchService
+public class DutchService(IDutchRepository dutchRepository, IUserRepository userRepository, ILogRepository logRepository) : IDutchService
 {
     private readonly IDutchRepository _dutchRepository = dutchRepository;
     private readonly IUserRepository _userRepository = userRepository;
+    private readonly ILogRepository _logRepository = logRepository;
 
     public async Task<IEnumerable<DutchScore>> GetUserScores(string name, CancellationToken token)
     {
@@ -30,6 +32,8 @@ public class DutchService(IDutchRepository dutchRepository, IUserRepository user
         }
 
         await _dutchRepository.UpdateOne(score, points, token);
+
+
         return true;
     }
 
@@ -66,6 +70,8 @@ public class DutchService(IDutchRepository dutchRepository, IUserRepository user
             });
 
         await _dutchRepository.CreateMany(game, scores, token);
+
+        await _logRepository.AddDutchGameCreationLog(createDutchGameCommand, token);
     }
 
     //private async Task<AllStarUser> GetUser(string nickName, CancellationToken token)

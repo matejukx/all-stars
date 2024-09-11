@@ -2,7 +2,6 @@
 using AllStars.Domain.Dutch.Models;
 using Microsoft.EntityFrameworkCore;
 using System.Data;
-using System.Xml.Linq;
 
 namespace AllStars.Infrastructure.Dutch.Repository;
 
@@ -14,10 +13,10 @@ public class DutchRepository : IDutchRepository
 
     public async Task CreateMany(DutchGame game, IEnumerable<DutchScore> scores, CancellationToken token)
     {
-        //if (scores.Any(s => s.Id != game.Id))
-        //{
-        //    throw new DataException("Could not insert Dutch Games. Id is not consistient.");
-        //}
+        if (scores.Any(s => s.Id != game.Id))
+        {
+            throw new DataException("Could not insert Dutch Games. Id is not consistient.");
+        }
 
         await _context.DutchGames.AddAsync(game, token);
         await _context.DutchScores.AddRangeAsync(scores, token);        

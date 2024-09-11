@@ -1,9 +1,7 @@
 # all-stars
 
-1. dodaj minimum testow aby dalo sie to na pipeline wrzucic xD
-    - end to end happy path or integration tests
-    
-2. Make pipeline work
+
+
 3. dodaj logi o strukturze:
     1. dataDodania
     2. kto dodał
@@ -25,3 +23,7 @@
 
 4. deploy?
 5. add simple frontend
+
+
+## Na kiedys
+# 1. Add E2E or Integration Tests

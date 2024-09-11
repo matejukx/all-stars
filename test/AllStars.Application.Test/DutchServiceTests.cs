@@ -2,6 +2,7 @@
 using AllStars.Domain.Dutch.Interfaces;
 using AllStars.Domain.Dutch.Models;
 using AllStars.Domain.Dutch.Models.Commands;
+using AllStars.Domain.Logs.Interfaces;
 using AllStars.Domain.User.Models;
 using FluentAssertions;
 using Moq;
@@ -12,6 +13,7 @@ public class DutchServiceTests
 {
     private readonly Mock<IDutchRepository> _dutchRepositoryMock;
     private readonly Mock<IUserRepository> _userRepositoryMock;
+    private readonly Mock<ILogRepository> _logRepositoryMock;
     private readonly DutchService _dutchService;
     private readonly CancellationToken _token = new CancellationToken();
 
@@ -19,7 +21,7 @@ public class DutchServiceTests
     {
         _dutchRepositoryMock = new Mock<IDutchRepository>();
         _userRepositoryMock = new Mock<IUserRepository>();
-        _dutchService = new DutchService(_dutchRepositoryMock.Object, _userRepositoryMock.Object);
+        _dutchService = new DutchService(_dutchRepositoryMock.Object, _userRepositoryMock.Object, _logRepositoryMock.Object);
     }
 
     [Fact]
