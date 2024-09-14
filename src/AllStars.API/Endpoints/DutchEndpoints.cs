@@ -113,24 +113,4 @@ public static class DutchEndpoints
             return Results.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
-
-    public static async Task<IResult> AddUser(
-        [FromServices] IUserRepository userRepository,
-        [FromServices] ILoggerFactory loggerFactory,
-        CancellationToken token)
-    {
-        var logger = loggerFactory.CreateLogger("UserEndpoints");
-        try
-        {
-            await userRepository.CreateDefaultUsers(token);
-
-            logger.LogInformation("Inserted mocked users into database.");
-            return Results.Ok();
-        }
-        catch (Exception ex)
-        {
-            logger.LogError("Something went wrong when using AddUser endpoint: {ex}", ex);
-            return Results.StatusCode(StatusCodes.Status500InternalServerError);
-        }
-    }
 }

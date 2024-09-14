@@ -3,7 +3,7 @@ using AllStars.Domain.Dutch.Models;
 using AllStars.Domain.Dutch.Models.Commands;
 using AllStars.Domain.Logs.Interfaces;
 
-namespace AllStars.Application.Services;
+namespace AllStars.Application.Services.Dutch;
 
 public class DutchService(IDutchRepository dutchRepository, IUserRepository userRepository, ILogRepository logRepository) : IDutchService
 {
@@ -84,5 +84,5 @@ public class DutchService(IDutchRepository dutchRepository, IUserRepository user
 
     //    return user;
     //}
-    
+
 }

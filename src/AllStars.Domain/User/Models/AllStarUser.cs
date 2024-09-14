@@ -17,4 +17,8 @@ public class AllStarUser
     public Families Families { get; set; }
 
     public ICollection<DutchScore> DutchScores { get; set; } = new List<DutchScore>();
+
+    public string PasswordHash { get; set; }
+
+    public string PasswordSalt { get; set; }
 }
