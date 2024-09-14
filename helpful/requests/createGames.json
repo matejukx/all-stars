@@ -1,17 +1,17 @@
 {
-    "scorePairs": [
-      {
-        "nickName": "Kisiel Reda",
-        "score": 15
-      },
-        {
-        "nickName": "Hitlerjuden",
-        "score": 11
-      },
-  {     
-        "nickName": "Patols",
-        "score": 14
-      }
-    ],
-    "comment": "string"
-  }
+  "scorePairs": [
+    {
+      "nickName": "Kisiel Reda",
+      "score": 15
+    },
+    {
+      "nickName": "Hitlerjuden",
+      "score": 11
+    },
+    {
+      "nickName": "Patols",
+      "score": 14
+    }
+  ],
+  "comment": "string"
+}
