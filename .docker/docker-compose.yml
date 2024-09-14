@@ -14,7 +14,7 @@ services:
     ports:
       - 5000:5000
     build:
-      context: ../src
+      context: ../backend/src
       dockerfile: Dockerfile
     environment:
       - PostgresDatabaseOptions__ConnectionString=Host=postgres.db;Port=5432;Username=postgres;Password=pickford123;Database=postgres

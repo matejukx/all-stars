@@ -6,16 +6,16 @@ jobs:
     steps:
     - uses: actions/checkout@v2
     - name: restore project
-      working-directory: .
+      working-directory: ./backend
       run: dotnet restore
     - name: dotnet build
-      working-directory: .
+      working-directory: ./backend
       run: dotnet build  -c Release --no-restore
     - name: Run API unit tests
-      working-directory: ./test/AllStars.API.Test
+      working-directory: ./backend/test/AllStars.API.Test
       run: dotnet test --no-restore --verbosity normal
     - name: Run Application unit tests
-      working-directory: ./test/AllStars.Application.Test
+      working-directory: ./backend/test/AllStars.Application.Test
       run: dotnet test --no-restore --verbosity normal
     # Restore those steps when integration / e2e tests will be added
     # - name: publish for integration tests

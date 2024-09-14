@@ -3,7 +3,7 @@ services:
     container_name: all-stars.api.test
     image: all-stars.api.test:latest
     build:
-      context: ../test/AllStars.Integration.Test
+      context: ../backend/test/AllStars.Integration.Test
       dockerfile: Dockerfile.test
     networks:
       - all-stars-network

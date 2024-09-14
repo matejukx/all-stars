@@ -1,7 +1,14 @@
 # all-stars
 
-1. dodaj proste haslo
-2. dodaj hashed
+Potrzebne filtry:
+1. wybrani gracze
+2. gry, w ktorych byli tylko wskazani gracze (lub czesc z nich)
+3. gry, w ktorych byli tylko wskazani gracze (wszyscy)
+4. gry, w których byl kazdy ze wskazanych graczy + potencjalnie inni
+
+1. Srednie miejsce
+2. Srednie punkty
+
 3. frontend
 4. logi
     1. dataDodania
