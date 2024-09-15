@@ -9,7 +9,7 @@ public class PutScoreRequestValidator : AbstractValidator<PutScoreRequest>
     public PutScoreRequestValidator()
     {
         RuleFor(x => x.Points)
-            .InclusiveBetween(DutchHelpers.MIN_DUTCH_POINTS_VALUE, DutchHelpers.MAX_DUTCH_POINTS_VALUE)
+            .InclusiveBetween(DutchHelpers.MinDutchPointsValue, DutchHelpers.MaxDutchPointsValue)
             .WithMessage("Score must be between 0 and 1000.");
     }
 }
