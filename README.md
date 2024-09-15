@@ -1,4 +1,10 @@
 # all-stars
+## Setup
+1. Tasks docker-compose up aby postawic baze i apke
+2. Jak wolisz w Visualu / Reiderze to se zamknij container
+3. npm run dev w folderze frontend coby odpalic apke frontnedowa.
+4. Porty 5000 i 5001, masz swaggera dla backendu
+
 ## TODO:
 1. Put dla DutchScore musi przeliczać Position wszystkich graczy z tej giery [15min]
 2. Na froncie musi być możliwość dodania giery (POST dutch) [30min]
@@ -37,7 +43,7 @@ NA KONIEC:
 11. Utworz kazdemu konto i daj mu mozliwosc zmiany hasla na jakie chce i podac maila [chuj]
 
 ## Co można poprawić
-1. Autentykację
+1. Autentykację bo jest z dupy tj te szyfrowanie nie jest raczej git
 
 ## Na kiedys
 # 1. Add E2E or Integration Tests
