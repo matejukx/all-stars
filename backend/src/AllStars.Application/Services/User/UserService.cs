@@ -6,11 +6,9 @@ namespace AllStars.Application.Services.User;
 
 public class UserService(IUserRepository userRepository): IUserService
 {
-    private readonly IUserRepository _userRepository = userRepository;
-
     public async Task RegisterUserAsync(AllStarUser user, string password, CancellationToken token)
     {
-        var existingUser = await _userRepository.GetOneAsync(user.Nickname, token);
+        var existingUser = await userRepository.GetOneAsync(user.Nickname, token);
         if (existingUser != null)
         {
             throw new InvalidOperationException("User already exists.");
@@ -22,6 +20,6 @@ public class UserService(IUserRepository userRepository): IUserService
         user.PasswordSalt = salt;
         user.PasswordHash = hashedPassword;
 
-        await _userRepository.CreateUserAsync(user, token);
+        await userRepository.CreateUserAsync(user, token);
     }
 }

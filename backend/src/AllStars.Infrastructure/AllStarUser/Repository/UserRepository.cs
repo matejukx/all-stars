@@ -1,25 +1,22 @@
 ﻿using AllStars.Domain.Dutch.Interfaces;
 using Microsoft.EntityFrameworkCore;
 using AllStars.Domain.User.Models;
-using System.Runtime.Intrinsics.X86;
 
 namespace AllStars.Infrastructure.User.Repository;
 
 public class UserRepository(AppDbContext context) : IUserRepository
 {
-    private readonly AppDbContext _context = context;
-
     public async Task<AllStarUser?> GetOneAsync(string nickName, CancellationToken token)
     {
-        return await _context.Users
+        return await context.Users
             .Where(u => u.Nickname == nickName)
             .FirstOrDefaultAsync(token);
     }
 
     public async Task CreateUserAsync(AllStarUser user, CancellationToken token)
     {
-        await _context.Users.AddAsync(user, token);
-        await _context.SaveChangesAsync(token);
+        await context.Users.AddAsync(user, token);
+        await context.SaveChangesAsync(token);
     }
 
     public async Task CreateDefaultUsersAsync(CancellationToken token)
@@ -54,13 +51,13 @@ public class UserRepository(AppDbContext context) : IUserRepository
             LastName = "Stankiewicz"
         };
 
-        await _context.Users.AddRangeAsync(user1, user2, user3);
-        await _context.SaveChangesAsync(token);
+        await context.Users.AddRangeAsync(user1, user2, user3);
+        await context.SaveChangesAsync(token);
     }
 
-    public async Task<IEnumerable<AllStarUser>> GetManyAsync(IEnumerable<string> nickNames, CancellationToken token)
+    public async Task<List<AllStarUser>> GetManyAsync(IEnumerable<string> nickNames, CancellationToken token)
     {
-        return await _context.Users
+        return await context.Users
             .Where(u => nickNames.Contains(u.Nickname))
             .ToListAsync(token);
     }
