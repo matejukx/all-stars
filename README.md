@@ -1,36 +1,43 @@
 # all-stars
+## TODO:
+1. Put dla DutchScore musi przeliczać Position wszystkich graczy z tej giery [15min]
+2. Na froncie musi być możliwość dodania giery (POST dutch) [30min]
+    interface np. modal:
+    Player (select) | POINTS
+    Player (select) | POINTS
+    + Add another player
+3. Zapisz token otrzymany po zalogowaniu i wykrozystaj go do POST dutch i PUT dutch [15min]
+4. Dodaj możliwośc edycji istniejącej giery PUT dutch [duzo]
+    ale to trudniejsze, bo trzeba by zrobic widok z listą gier jeszcze
+5. Dodaj filtry do rankingu. Defaultowo są wszyscy gracze w każdej grze, ale można dodać [2h]
+    guzik Filtry, który po kliknięciu pozwalałby: 
+    1. Wybrać graczy, którzy mają być uwzględnieni
+    2. wybrać tryb filtra:
+        1. Tylko wybrani gracze w każdej grze
+        2. Uwzględniaj tylko gry, w których był ktokolwiek ze wskazanych
+        3. Uwzględniaj tylko gry, w których była część lub wszyscy wskazani gracze i nikt poza nimi
+        4. uwzględniaj tylko gry, w których byli WSZYSCY wskazani gracze i nikt poza nimi
 
-Potrzebne filtry:
-1. wybrani gracze
-2. gry, w ktorych byli tylko wskazani gracze (lub czesc z nich)
-3. gry, w ktorych byli tylko wskazani gracze (wszyscy)
-4. gry, w których byl kazdy ze wskazanych graczy + potencjalnie inni
+6. dodaj mozliwosc sortowania po kolumnie - klikasz i się robi ASC lub DESC po tym polu [15min]
+7. Dodaj logi z nową tabelą w DB, które zapisywałby POSTY: [30min]
+    1. Kto dodał
+    2. Kiedy
+    3. Id gierki
+    4. w Plain tekscie wszystkie pola
+    i PUTY:
+    1. kto
+    2. kiedy
+    3. id gierki 
+    4. w plain tekscie wszystkie pola
+8. Dodaj budowanie się frontu do pipeline [20min]
+9. Dodaj testy frontendowe i do pipeline [20min]
 
-1. Srednie miejsce
-2. Srednie punkty
+NA KONIEC:
+10. deploy na środowisko [chuj]
+11. Utworz kazdemu konto i daj mu mozliwosc zmiany hasla na jakie chce i podac maila [chuj]
 
-3. frontend
-4. logi
-    1. dataDodania
-    2. kto dodał
-    3. id gierki
-    4. wynik
-    5. osoba
-5. deploy
-
-6 deploy
-7. frontend
-
-
-
-2. sprawdz dockerowa wersję czy działa
-
-
-
-
-4. deploy?
-5. add simple frontend
-
+## Co można poprawić
+1. Autentykację
 
 ## Na kiedys
 # 1. Add E2E or Integration Tests

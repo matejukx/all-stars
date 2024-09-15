@@ -8,6 +8,8 @@ public class DutchScore
 
     public int Points { get; set; }
 
+    public int Position { get; set; }
+
     public Guid DutchGameId { get; set; }
     public DutchGame Game { get; set; }
 

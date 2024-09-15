@@ -13,7 +13,7 @@ public class DutchRepository : IDutchRepository
 
     public async Task CreateMany(DutchGame game, IEnumerable<DutchScore> scores, CancellationToken token)
     {
-        if (scores.Any(s => s.Id != game.Id))
+        if (scores.Any(s => s.DutchGameId != game.Id))
         {
             throw new DataException("Could not insert Dutch Games. Id is not consistient.");
         }

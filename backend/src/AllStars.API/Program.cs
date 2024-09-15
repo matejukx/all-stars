@@ -76,6 +76,17 @@ builder.Services.
 builder.Services.AddJwtAuthentication(configuration);
 builder.Services.AddAuthorization();
 
+builder.Services.AddCors(options =>
+{
+    options.AddPolicy("AllowLocalhost", builder =>
+    {
+        builder.WithOrigins("http://localhost:5001")
+               .AllowAnyMethod()
+               .AllowAnyHeader()
+               .AllowCredentials();
+    });
+});
+
 builder.Services.AddSwagger();
 
 var app = builder.Build();
@@ -89,12 +100,14 @@ if (app.Environment.IsDevelopment())
 app.UseAuthentication();
 app.UseAuthorization();
 
+app.UseCors("AllowLocalhost");
+
 app.MapGet("/dutch/all", DutchEndpoints.GetAll);
 app.MapGet("/dutch", DutchEndpoints.GetUserScores);
-app.MapPost("/dutch", DutchEndpoints.PostGame)
-    .RequireAuthorization();
-app.MapPut("/dutch", DutchEndpoints.PutScore)
-    .RequireAuthorization();
+app.MapPost("/dutch", DutchEndpoints.PostGame);
+    //.RequireAuthorization();
+app.MapPut("/dutch", DutchEndpoints.PutScore);
+    //.RequireAuthorization();
 
 if (app.Environment.IsDevelopment())
 {

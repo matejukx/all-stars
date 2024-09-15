@@ -11,7 +11,7 @@ public class DutchScoreResponseProfile : Profile
     {
         CreateMap<DutchScore, DutchScoreResponse>()
             .ForMember(
-                dest => dest.Nickname, 
+                dest => dest.NickName, 
                 opt => opt.MapFrom(src => src.Player.Nickname));
     }
 }

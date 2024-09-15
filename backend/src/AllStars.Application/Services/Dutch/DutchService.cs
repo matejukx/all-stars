@@ -60,14 +60,35 @@ public class DutchService(IDutchRepository dutchRepository, IUserRepository user
             Comment = createDutchGameCommand.Comment
         };
 
-        var scores = createDutchGameCommand.ScorePairs
-            .Select(c => new DutchScore
+        var sortedScorePairs = createDutchGameCommand.ScorePairs
+            .OrderBy(c => c.Score)
+            .ToList();
+
+        var scores = new List<DutchScore>();
+        int currentRank = 1;
+        int previousScore = int.MinValue;
+        int currentRankStartIndex = 0;
+
+        for (int i = 0; i < sortedScorePairs.Count; i++)
+        {
+            var scorePair = sortedScorePairs[i];
+
+            if (scorePair.Score != previousScore)
+            {
+                currentRank = i + 1; 
+                previousScore = scorePair.Score;
+                currentRankStartIndex = i;
+            }
+
+            scores.Add(new DutchScore
             {
                 Id = Guid.NewGuid(),
                 DutchGameId = game.Id,
-                PlayerId = users.Single(u => u.Nickname == c.NickName).Id,
-                Points = c.Score
+                PlayerId = users.Single(u => u.Nickname == scorePair.NickName).Id,
+                Points = scorePair.Score,
+                Position = currentRank
             });
+        }
 
         await _dutchRepository.CreateMany(game, scores, token);
 
