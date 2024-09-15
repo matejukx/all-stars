@@ -42,25 +42,28 @@ public class DutchService(IDutchRepository dutchRepository, IUserRepository user
 
             throw new InvalidOperationException($"Cannot create game. Some users where not found: {string.Join(", ", missingNickNames)}");
         }
-
+        
         var game = new DutchGame
         {
             Id = Guid.NewGuid(),
             Date = DateTime.Now,
             Comment = createDutchGameCommand.Comment
         };
-        
+
+        var usernames = users.ToDictionary(u => u.Nickname, u => u.Id);
+
         var scores = createDutchGameCommand
             .ScorePairs
-            .OrderBy(sp => sp.Score)
-            .Select((sp, i) => new DutchScore
+            .GroupBy(sp => sp.Score)
+            .OrderBy(g => g.Key)
+            .SelectMany((g, i) => g.Select(sp => new DutchScore
             {
                 Id = Guid.NewGuid(),
                 DutchGameId = game.Id,
-                PlayerId = users.Single(u => u.Nickname == sp.NickName).Id,
+                PlayerId = usernames[sp.NickName],
                 Points = sp.Score,
                 Position = i + 1
-            }).ToList();
+            })).ToList();
         
         await dutchRepository.CreateMany(game, scores, token);
 
