@@ -6,11 +6,15 @@ using AllStars.Domain.User.Models;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using ILogger = Serilog.ILogger;
 
 namespace AllStars.API.Endpoints;
 
 public static class UserEndpoints
 {
+    static readonly ILogger _logger = Log.ForContext(typeof(AuthEndpoints));
+
     public static async Task<IResult> RegisterUser(
         CreateUserRequest request,
         [FromServices] IUserService userService,
@@ -19,7 +23,6 @@ public static class UserEndpoints
         [FromServices] IMapper mapper,
         CancellationToken token)
     {
-        var logger = loggerFactory.CreateLogger("UserEndpoints");
         try
         {
             var validationResult = validator.Validate(request);
@@ -35,7 +38,7 @@ public static class UserEndpoints
         }
         catch (Exception ex)
         {
-            logger.LogError("Something went wrong when using AddUser endpoint: {ex}", ex);
+            _logger.Error(ex, "Something went wrong when using AddUser endpoint.");
             return Results.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

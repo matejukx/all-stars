@@ -12,17 +12,11 @@ namespace AllStars.Application.Services.User;
 public class AuthService(IOptions<AllStarsIdentityOptions> options, IUserRepository userRepository) : IAuthService
 {
     private readonly AllStarsIdentityOptions _allStarsIdentityOptions = options.Value;
-    private readonly IUserRepository _userRepository = userRepository;
 
     public async Task<bool> ValidateUserAsync(string nickName, string password, CancellationToken token)
     {
-        var user = await _userRepository.GetOneAsync(nickName, token);
-        if (user is null)
-        {
-            return false;
-        }
-
-        return AuthHelpers.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
+        var user = await userRepository.GetOneAsync(nickName, token);
+        return user is not null && AuthHelpers.VerifyPassword(password, user.PasswordHash, user.PasswordSalt);
     }
 
     public string GenerateJwtToken(string username)

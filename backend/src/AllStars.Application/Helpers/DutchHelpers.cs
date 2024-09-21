@@ -2,8 +2,8 @@
 
 public static class DutchHelpers
 {
-    static public int MIN_DUTCH_POINTS_VALUE = 0;
-    static public int MAX_DUTCH_POINTS_VALUE = 1000;
+    public const int MinDutchPointsValue = 0;
+    public const int MaxDutchPointsValue = 1000;
 
-    static public bool IsScoreValid(int value) => value >= MIN_DUTCH_POINTS_VALUE && value <= MAX_DUTCH_POINTS_VALUE;
+    public static bool IsScoreValid(int value) => value >= MinDutchPointsValue && value <= MaxDutchPointsValue;
 }

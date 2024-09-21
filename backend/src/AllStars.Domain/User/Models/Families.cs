@@ -3,7 +3,7 @@
 [Flags]
 public enum Families
 {
-    Default = 0,
+    None = 0,
     Kolobrzeg = 1,
     Gdansk = 2, 
     Reda = 4,

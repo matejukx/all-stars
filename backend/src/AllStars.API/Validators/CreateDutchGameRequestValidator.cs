@@ -15,7 +15,7 @@ public class CreateDutchGameRequestValidator : AbstractValidator<CreateDutchGame
                 scorePair.ChildRules(pair =>
                 {
                     pair.RuleFor(x => x.Score)
-                         .InclusiveBetween(DutchHelpers.MIN_DUTCH_POINTS_VALUE, DutchHelpers.MAX_DUTCH_POINTS_VALUE)
+                         .InclusiveBetween(DutchHelpers.MinDutchPointsValue, DutchHelpers.MaxDutchPointsValue)
                          .WithMessage("Score must be between 0 and 1000.");
                 });
             });

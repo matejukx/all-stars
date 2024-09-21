@@ -4,11 +4,15 @@ using AllStars.Domain.Dutch.Models.Commands;
 using AutoMapper;
 using FluentValidation;
 using Microsoft.AspNetCore.Mvc;
+using Serilog;
+using ILogger = Serilog.ILogger;
 
 namespace AllStars.API.Endpoints;
 
 public static class DutchEndpoints
 {
+    static readonly ILogger _logger = Log.ForContext(typeof(DutchEndpoints));
+
     public static async Task<IResult> PutScore(
         PutScoreRequest request,
         [FromServices] IDutchService dutchService,
@@ -16,26 +20,20 @@ public static class DutchEndpoints
         [FromServices] IValidator<PutScoreRequest> validator,
         CancellationToken token)
     {
-        var logger = loggerFactory.CreateLogger("UserEndpoints");
         try
         {
-            var validationResult = validator.Validate(request);
+            var validationResult = await validator.ValidateAsync(request, token);
             if (!validationResult.IsValid)
             {
                 return Results.BadRequest(validationResult.Errors);
             }
 
             var result = await dutchService.UpdateOne(request.GameId, request.NickName, request.Points, token);
-            if (result is false)
-            {
-                return Results.NotFound("Something went wrong when updating DutchScore.");
-            }
-
-            return Results.Ok();
+            return result ? Results.Ok() : Results.NotFound("Something went wrong when updating DutchScore.");
         }
         catch (Exception ex)
         {
-            logger.LogError("Something went wrong when using PutScore endpoint: {ex}", ex);
+            _logger.Error(ex, "Something went wrong when using PutScore endpoint.");
             return Results.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -48,10 +46,9 @@ public static class DutchEndpoints
         [FromServices] IValidator<CreateDutchGameRequest> validator,
         CancellationToken token)
     {
-        var logger = loggerFactory.CreateLogger("UserEndpoints");
         try
         {
-            var validationResult = validator.Validate(request);
+            var validationResult = await validator.ValidateAsync(request, token);
             if (!validationResult.IsValid)
             {
                 return Results.BadRequest(validationResult.Errors);
@@ -63,7 +60,7 @@ public static class DutchEndpoints
         }
         catch (Exception ex)
         {
-            logger.LogError("Something went wrong when using PostGame endpoint: {ex}", ex);
+            _logger.Error(ex, "Something went wrong when using PostGame endpoint.");
             return Results.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -75,7 +72,6 @@ public static class DutchEndpoints
         [FromServices] ILoggerFactory loggerFactory, 
         CancellationToken token)
     {
-        var logger = loggerFactory.CreateLogger("UserEndpoints");
         try
         {
             var results = await dutchService.GetUserScores(query.NickName, token);
@@ -89,7 +85,7 @@ public static class DutchEndpoints
         }
         catch (Exception ex)
         {
-            logger.LogError("Something went wrong when using GetUserScore endpoint: {ex}", ex);
+            _logger.Error(ex, "Something went wrong when using GetUserScore endpoint.");
             return Results.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }
@@ -100,7 +96,6 @@ public static class DutchEndpoints
         [FromServices] ILoggerFactory loggerFactory,
         CancellationToken token)
     {
-        var logger = loggerFactory.CreateLogger("UserEndpoints");
         try
         {
             var results = await dutchService.GetAll(token);
@@ -109,7 +104,7 @@ public static class DutchEndpoints
         }
         catch (Exception ex)
         {
-            logger.LogError("Something went wrong when using GetAll endpoint: {ex}", ex);
+            _logger.Error(ex, "Something went wrong when using GetAll endpoint.");
             return Results.StatusCode(StatusCodes.Status500InternalServerError);
         }
     }

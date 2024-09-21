@@ -6,7 +6,7 @@ public interface IUserRepository
 {
     Task<AllStarUser?> GetOneAsync(string nickName, CancellationToken token);
 
-    Task<IEnumerable<AllStarUser>> GetManyAsync(IEnumerable<string> nickNames, CancellationToken token);
+    Task<List<AllStarUser>> GetManyAsync(IEnumerable<string> nickNames, CancellationToken token);
 
     Task CreateDefaultUsersAsync(CancellationToken token);
 

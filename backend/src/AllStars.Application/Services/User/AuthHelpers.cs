@@ -7,7 +7,7 @@ internal static class AuthHelpers
 {
     private const int SaltSize = 16; // 128 bit
     private const int HashSize = 32; // 256 bit
-    private const int Iterations = 10000;
+    private const int Iterations = 100000;
 
     internal static bool VerifyPassword(string inputPassword, string storedHash, string storedSalt)
     {
@@ -20,20 +20,16 @@ internal static class AuthHelpers
         var saltBytes = Convert.FromBase64String(salt);
         var passwordBytes = Encoding.UTF8.GetBytes(password);
 
-        using (var rfc2898DeriveBytes = new Rfc2898DeriveBytes(passwordBytes, saltBytes, Iterations, HashAlgorithmName.SHA256))
-        {
-            var hash = rfc2898DeriveBytes.GetBytes(HashSize);
-            return Convert.ToBase64String(hash);
-        }
+        using var rfc2898DeriveBytes = new Rfc2898DeriveBytes(passwordBytes, saltBytes, Iterations, HashAlgorithmName.SHA256);
+        var hash = rfc2898DeriveBytes.GetBytes(HashSize);
+        return Convert.ToBase64String(hash);
     }
 
     internal static string GenerateSalt()
     {
         var saltBytes = new byte[SaltSize];
-        using (var rng = new RNGCryptoServiceProvider())
-        {
-            rng.GetBytes(saltBytes);
-        }
+        using var rng = RandomNumberGenerator.Create();
+        rng.GetBytes(saltBytes);
         return Convert.ToBase64String(saltBytes);
     }
 }

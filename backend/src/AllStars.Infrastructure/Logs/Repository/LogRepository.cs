@@ -7,12 +7,8 @@ using System.Data;
 
 namespace AllStars.Infrastructure.Dutch.Repository;
 
-public class LogRepository : ILogRepository
+public class LogRepository(AppDbContext context) : ILogRepository
 {
-    private readonly AppDbContext _context;
-
-    public LogRepository(AppDbContext context) => _context = context;
-
     public async Task AddDutchGameCreationLog(CreateDutchGameCommand game, CancellationToken token)
     {
         // get user from context
