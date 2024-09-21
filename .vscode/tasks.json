@@ -6,7 +6,10 @@
       "command": "dotnet",
       "args": [
         "restore"
-      ]
+      ],
+      "options": {
+        "cwd": "${workspaceFolder}/backend/src/AllStars.API"
+      }
     },
     {
       "label": "up",
@@ -27,7 +30,7 @@
         "test"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/test/AllStars.API.test"
+        "cwd": "${workspaceFolder}/backend/test/AllStars.API.test"
       }
     },
     {
@@ -37,7 +40,7 @@
         "test"
       ],
       "options": {
-        "cwd": "${workspaceFolder}/test/AllStars.Application.test"
+        "cwd": "${workspaceFolder}/backend/test/AllStars.Application.test"
       }
     },
     {

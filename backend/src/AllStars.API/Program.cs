@@ -27,8 +27,8 @@ var configuration = builder.Configuration
 
 // Register logger
 Log.Logger = new LoggerConfiguration()
-    .ReadFrom.Configuration(builder.Configuration) 
-    .WriteTo.Console()  
+    .ReadFrom.Configuration(builder.Configuration)
+    .WriteTo.Console()
     .CreateLogger();
 builder.Host.UseSerilog();
 builder.Logging.ClearProviders();
@@ -91,11 +91,8 @@ builder.Services.AddSwagger();
 
 var app = builder.Build();
 
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
+app.UseSwagger();
+app.UseSwaggerUI();
 
 app.UseAuthentication();
 app.UseAuthorization();
@@ -105,15 +102,22 @@ app.UseCors("AllowLocalhost");
 app.MapGet("/dutch/all", DutchEndpoints.GetAll);
 app.MapGet("/dutch", DutchEndpoints.GetUserScores);
 app.MapPost("/dutch", DutchEndpoints.PostGame);
-    //.RequireAuthorization();
+//.RequireAuthorization();
 app.MapPut("/dutch", DutchEndpoints.PutScore);
-    //.RequireAuthorization();
+//.RequireAuthorization();
 
-if (app.Environment.IsDevelopment())
-{
-    app.MapPut("/dev/users", UserEndpoints.RegisterUser);
-}
+// REMOVE IT FROM PRD
+app.MapPut("/dev/users", UserEndpoints.RegisterUser);
+
 
 app.MapPost("/login", AuthEndpoints.Login);
+
+var applyMigration = configuration.GetSection("PostgresDatabaseOptions:ApplyMigration").Value == "true";
+
+if (applyMigration)
+{
+    using var context = (AppDbContext)app.Services.GetService(typeof(AppDbContext));
+    context.Database.Migrate();
+}
 
 app.Run();
