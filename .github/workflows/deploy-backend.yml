@@ -1,0 +1,42 @@
+name: Deploy Backend
+
+on:
+  push:
+    branches:
+      - 'main'
+
+jobs:
+  build-and-push:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Set up QEMU
+        uses: docker/setup-qemu-action@v3
+      - name: Set up Docker Buildx
+        uses: docker/setup-buildx-action@v3
+      - name: Login to DockerHub
+        uses: docker/login-action@v3
+        with:
+          username: ${{ secrets.DOCKERHUB_USERNAME }}
+          password: ${{ secrets.DOCKERHUB_TOKEN }}
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v6
+        with:
+          push: true
+          context: "{{defaultContext}}:backend:src"
+          tags: matejuk/all-stars-backend:latest
+  update-VPS-container:
+    needs: build-and-push
+    runs-on: ubuntu-latest
+    steps:
+      - name: Update image inside VPS
+        uses: appleboy/ssh-action@master
+        with:
+          host: ${{ secrets.HOST }}
+          USERNAME: ${{ secrets.USERNAME }}
+          PORT: ${{ secrets.PORT }}
+          KEY: ${{ secrets.SSH_PRIVATE_KEY }}
+          script: |
+            docker stop $(docker ps -q --filter ancestor=matejuk/all-stars-backend )
+            docker pull matejuk/all-stars-backend:latest
+            docker run --env PostgresDatabaseOptions__ConnectionString=${{ secrets.POSTGRES_CONNECTION_STRING }} -d -p 5000:80 matejuk/all-stars-backend:latest 
