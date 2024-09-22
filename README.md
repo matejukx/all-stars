@@ -40,7 +40,7 @@
 
 NA KONIEC:
 10. deploy na środowisko [chuj]
-11. Utworz kazdemu konto i daj mu mozliwosc zmiany hasla na jakie chce i podac maila [chuj]
+11. Utworz kazdemu konto i daj mu mozliwosc zmiany hasla na jakie chce i podac maila [chuj]  
 
 ## Co można poprawić
 1. Autentykację bo jest z dupy tj te szyfrowanie nie jest raczej git
