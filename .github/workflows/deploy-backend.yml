@@ -24,7 +24,7 @@ jobs:
         with:
           push: true
           context: "{{defaultContext}}:backend/src"
-          file: ./backend/src/Dockerfile
+          file: ./.docker/Dockerfile
           tags: matejuk/all-stars-backend:latest
   update-VPS-container:
     needs: build-and-push
