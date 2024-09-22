@@ -1,7 +1,7 @@
 # all-stars
 ## Setup
 1. Tasks docker-compose up aby postawic baze i apke
-2. Jak wolisz w Visualu / Reiderze to se zamknij container
+2. Jak wolisz w Visualu / Reiderze to se zamknij container 
 3. npm run dev w folderze frontend coby odpalic apke frontnedowa.
 4. Porty 5000 i 5001, masz swaggera dla backendu
 
