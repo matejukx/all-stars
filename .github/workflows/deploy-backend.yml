@@ -23,6 +23,7 @@ jobs:
         uses: docker/build-push-action@v6
         with:
           push: true
+          context: "{{defaultContext}}:mysubdir"
           file: ./backend/src/Dockerfile
           tags: matejuk/all-stars-backend:latest
   update-VPS-container:
