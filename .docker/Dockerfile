@@ -7,7 +7,7 @@ WORKDIR /src
 COPY ["../backend.src/AllStars.API/AllStars.API.csproj", "AllStars.API/"]
 RUN dotnet restore "AllStars.API/AllStars.API.csproj"
 
-COPY . .
+COPY ./backend/src/ .
 
 WORKDIR "/src/AllStars.API"
 RUN dotnet build "AllStars.API.csproj" -c Release -o /app/build
