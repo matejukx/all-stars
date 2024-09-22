@@ -40,4 +40,4 @@ jobs:
           script: |
             docker stop $(docker ps -q --filter ancestor=matejuk/all-stars-backend )
             docker pull matejuk/all-stars-backend:latest
-            docker run --env PostgresDatabaseOptions__ConnectionString=${{ secrets.POSTGRES_CONNECTION_STRING }} --env PostgresDatabaseOptions__ApplyMigration=true -d -p 5000:80 matejuk/all-stars-backend:latest 
+            docker run --env PostgresDatabaseOptions__ConnectionString=${{ secrets.POSTGRES_CONNECTION_STRING }} --env PostgresDatabaseOptions__ApplyMigration="true" -d -p 5000:80 matejuk/all-stars-backend:latest 
