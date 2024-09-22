@@ -4,7 +4,7 @@ WORKDIR /app
 FROM mcr.microsoft.com/dotnet/sdk:8.0 AS build
 WORKDIR /src
 
-COPY ["../backend.src/AllStars.API/AllStars.API.csproj", "AllStars.API/"]
+COPY ["../backend/src/AllStars.API/AllStars.API.csproj", "AllStars.API/"]
 RUN dotnet restore "AllStars.API/AllStars.API.csproj"
 
 COPY ./backend/src/ .
