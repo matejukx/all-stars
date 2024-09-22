@@ -36,7 +36,7 @@ jobs:
           USERNAME: ${{ secrets.SSH_USERNAME }}
           PORT: ${{ secrets.SSH_PORT }}
           KEY: ${{ secrets.SSH_PRIVATE_KEY }}
-          PASSPHRASE: ${{ SSH_PASSPHRASE }}
+          PASSPHRASE: ${{ secrets.SSH_PASSPHRASE }}
           script: |
             docker stop $(docker ps -q --filter ancestor=matejuk/all-stars-backend )
             docker pull matejuk/all-stars-backend:latest
